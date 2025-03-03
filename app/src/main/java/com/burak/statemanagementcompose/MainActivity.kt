@@ -1,5 +1,6 @@
 package com.burak.statemanagementcompose
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -17,7 +18,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.ComposableTarget
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -56,26 +58,32 @@ fun MainScreen() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        var userEntry = "Age"
+        var userEntry = remember{ mutableStateOf("") }
+        var exampleText = remember { mutableStateOf("Hello Android") }
+        var paddingValue = remember { mutableStateOf(10.dp) }
 
-        TextField(value = userEntry, onValueChange = {
-            userEntry = it
+        TextField(value = userEntry.value, onValueChange = {
+            userEntry.value = it
+            println(it)
+        }, placeholder = {
+            Text("Age")
         })
-        Text(text = "Hello Android")
-        Spacer(modifier = Modifier.padding(10.dp))
+        Text(text = exampleText.value)
+        Spacer(modifier = Modifier.padding(paddingValue.value))
         Button(onClick = {
-            println("click button")
+            exampleText.value = userEntry.value
         }, enabled = true) {
             Text("Example Button")
+            paddingValue.value = 20.dp
         }
-        Spacer(modifier = Modifier.padding(10.dp))
+        Spacer(modifier = Modifier.padding(paddingValue.value))
         Image(bitmap = ImageBitmap.imageResource(id = R.drawable.istanbul),
             contentDescription = "istanbul",
             modifier = Modifier.size(250.dp, 200.dp))
-        Spacer(modifier = Modifier.padding(10.dp))
+        Spacer(modifier = Modifier.padding(paddingValue.value))
         Image(imageVector = ImageVector.vectorResource(id = R.drawable.ic_launcher_background),
             contentDescription = "test")
-        Spacer(modifier = Modifier.padding(10.dp))
+        Spacer(modifier = Modifier.padding(paddingValue.value))
         Image(painter = ColorPainter(Color.Red),
             contentDescription = "red",
             modifier = Modifier.size(100.dp,100.dp)
@@ -83,7 +91,6 @@ fun MainScreen() {
     }
     
 }
-
 
 @Preview(showBackground = true)
 @Composable
