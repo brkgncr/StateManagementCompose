@@ -1,18 +1,15 @@
 package com.burak.statemanagementcompose
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -22,14 +19,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.painter.ColorPainter
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.imageResource
-import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.burak.statemanagementcompose.ui.theme.StateManagementComposeTheme
 
 class MainActivity : ComponentActivity() {
@@ -51,6 +45,9 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainScreen() {
 
+    var username = remember { mutableStateOf("Username") }
+    var password = remember { mutableStateOf("Password") }
+
     Column(
         modifier = Modifier
             .fillMaxSize(),
@@ -58,38 +55,39 @@ fun MainScreen() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        var userEntry = remember{ mutableStateOf("") }
-        var exampleText = remember { mutableStateOf("Hello Android") }
-        var paddingValue = remember { mutableStateOf(10.dp) }
-
-        TextField(value = userEntry.value, onValueChange = {
-            userEntry.value = it
-            println(it)
-        }, placeholder = {
-            Text("Age")
+        SpecialText("Register Form")
+        Spacer(modifier = Modifier.padding(10.dp))
+        SpeicalTextFiled(string = username.value, onValueChangeFunction = {
+            username.value = it
         })
-        Text(text = exampleText.value)
-        Spacer(modifier = Modifier.padding(paddingValue.value))
+        Spacer(modifier = Modifier.padding(10.dp))
+        SpeicalTextFiled(string = password.value, onValueChangeFunction = {
+            password.value = it
+        })
+        Spacer(modifier = Modifier.padding(10.dp))
         Button(onClick = {
-            exampleText.value = userEntry.value
-        }, enabled = true) {
-            Text("Example Button")
-            paddingValue.value = 20.dp
+            
+        }) {
+            Text("Register")
         }
-        Spacer(modifier = Modifier.padding(paddingValue.value))
-        Image(bitmap = ImageBitmap.imageResource(id = R.drawable.istanbul),
-            contentDescription = "istanbul",
-            modifier = Modifier.size(250.dp, 200.dp))
-        Spacer(modifier = Modifier.padding(paddingValue.value))
-        Image(imageVector = ImageVector.vectorResource(id = R.drawable.ic_launcher_background),
-            contentDescription = "test")
-        Spacer(modifier = Modifier.padding(paddingValue.value))
-        Image(painter = ColorPainter(Color.Red),
-            contentDescription = "red",
-            modifier = Modifier.size(100.dp,100.dp)
-        )
+
+
     }
     
+}
+
+@Composable
+fun SpeicalTextFiled(string : String, onValueChangeFunction: (String) -> Unit) {
+    TextField(value = string, onValueChange = onValueChangeFunction, modifier = Modifier.padding(5.dp))
+}
+
+@Composable
+fun SpecialText(string: String) {
+    Text(text = string,
+        fontSize = 24.sp,
+        fontWeight = FontWeight.Medium,
+        fontStyle = FontStyle.Italic
+    )
 }
 
 @Preview(showBackground = true)
