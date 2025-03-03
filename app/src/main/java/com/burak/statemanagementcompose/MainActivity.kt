@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -21,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -45,8 +47,8 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainScreen() {
 
-    var username = remember { mutableStateOf("Username") }
-    var password = remember { mutableStateOf("Password") }
+    var username = remember { mutableStateOf("") }
+    var password = remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier
@@ -57,36 +59,48 @@ fun MainScreen() {
 
         SpecialText("Register Form")
         Spacer(modifier = Modifier.padding(10.dp))
-        SpeicalTextFiled(string = username.value, onValueChangeFunction = {
+        SpecialTextField(string = username.value, onValueChangeFunction = {
             username.value = it
         })
         Spacer(modifier = Modifier.padding(10.dp))
-        SpeicalTextFiled(string = password.value, onValueChangeFunction = {
+        SpecialPasswordField(string = password.value, onValueChangeFunction = {
             password.value = it
         })
         Spacer(modifier = Modifier.padding(10.dp))
-        Button(onClick = {
-            
-        }) {
+        Button(onClick = {}) {
             Text("Register")
         }
-
-
     }
-    
 }
 
 @Composable
-fun SpeicalTextFiled(string : String, onValueChangeFunction: (String) -> Unit) {
-    TextField(value = string, onValueChange = onValueChangeFunction, modifier = Modifier.padding(5.dp))
+fun SpecialTextField(string : String, onValueChangeFunction: (String) -> Unit) {
+    OutlinedTextField(
+        value = string,
+        onValueChange = onValueChangeFunction,
+        label = { Text("Username") },
+        modifier = Modifier.padding(5.dp),
+    )
 }
+
+@Composable
+fun SpecialPasswordField(string: String, onValueChangeFunction: (String) -> Unit) {
+    OutlinedTextField(
+        value = string,
+        onValueChange = onValueChangeFunction,
+        label = { Text("Password") },
+        visualTransformation = PasswordVisualTransformation(),
+        modifier = Modifier.padding(5.dp)
+    )
+}
+
 
 @Composable
 fun SpecialText(string: String) {
     Text(text = string,
         fontSize = 24.sp,
         fontWeight = FontWeight.Medium,
-        fontStyle = FontStyle.Italic
+        fontStyle = FontStyle.Italic,
     )
 }
 
