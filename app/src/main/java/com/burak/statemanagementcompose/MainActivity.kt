@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ComposableTarget
 import androidx.compose.ui.Alignment
@@ -53,8 +54,13 @@ fun MainScreen() {
             .fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
-
     ) {
+
+        var userEntry = "Age"
+
+        TextField(value = userEntry, onValueChange = {
+            userEntry = it
+        })
         Text(text = "Hello Android")
         Spacer(modifier = Modifier.padding(10.dp))
         Button(onClick = {
